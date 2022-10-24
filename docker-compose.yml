@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+
+  webapp:
+    container_name: webapp
+    image: gymmanager:latest
+    restart: always
+    # environment:
+    #   POSTGRES_HOST: 'postgres'
+    #   POSTGRES_USER: 'dbuseradmin'
+    #   POSTGRES_PASSWORD: 'Postgres#S.Q.L'
+    #   POSTGRES_DB: 'gymmanager'
+    depends_on:
+      - postgres
+    ports:
+      - '5000:5000'
+      - '3000:3000'
+      - '3001:3001'
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: always
+    environment:
+      # POSTGRES_USER: 'dbuseradmin'
+      POSTGRES_PASSWORD: 'Admin.PostgresSQL'
+      # PGDATA: ''
+      POSTGRES_DB: 'gymmanager'
+      # POSTGRES_INITDB_ARGS: ''
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./gymmanager.sql:/docker-entrypoint-initdb.d/gymmanager.sql
+      - ./postgresql/data:/var/lib/postgresql/data
